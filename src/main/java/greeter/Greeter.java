@@ -1,21 +1,22 @@
 package greeter;
 
 public class Greeter {
-    String formality;
+    private final FormalityFactory formalityFactory;
+    private Formality formality = new DefaultFormality();
+
+    public Greeter() {
+        this(new FormalityFactory());
+    }
+
+    public Greeter(FormalityFactory formalityFactory) {
+        this.formalityFactory = formalityFactory;
+    }
 
     public String greet() {
-        if (this.formality == "formal") {
-            return "Good evening, sir.";
-        } else if (this.formality == "casual") {
-            return "Sup bro?";
-        } else if (this.formality == "intimate") {
-            return "Hello Darling!";
-        } else {
-            return "Hello.";
-        }
+        return this.formality.greet();
     }
 
     public void setFormality(String formality) {
-        this.formality = formality;
+        this.formality = formalityFactory.create(formality);
     }
 }
